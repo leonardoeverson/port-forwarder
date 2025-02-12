@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.local.portforwader.MainController">
+  <tabs>
+    <Tab text="Novo">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="portaOrigem" layoutX="14.0" layoutY="46.0" prefHeight="25.0" prefWidth="252.0" />
+                  <Label layoutX="14.0" layoutY="29.0" text="Porta de origem" />
+                  <TextField fx:id="portaDestino" layoutX="14.0" layoutY="113.0" prefHeight="25.0" prefWidth="252.0" />
+                  <Label layoutX="14.0" layoutY="96.0" text="Porta de destino" />
+                  <TextField fx:id="enderecoDestino" layoutX="14.0" layoutY="182.0" prefHeight="25.0" prefWidth="252.0" />
+                  <Label layoutX="14.0" layoutY="165.0" text="Endereço de destino" />
+                  <Button layoutX="207.0" layoutY="259.0" mnemonicParsing="false" onAction="#onSaveButtonClicked" prefHeight="25.0" prefWidth="187.0" text="Salvar" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab text="Listagem">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="tabela" layoutX="-1.0" layoutY="1.0" prefHeight="370.0" prefWidth="600.0">
+                    <columns>
+                      <TableColumn fx:id="origem" prefWidth="168.0" text="Porta de origem" />
+                      <TableColumn fx:id="destino" prefWidth="178.0" text="Porta de destino" />
+                      <TableColumn fx:id="endereco" prefWidth="253.0" text="Endereço remoto" />
+                    </columns>
+                  </TableView>
+               </children></AnchorPane>
+      </content>
+    </Tab>
+  </tabs>
+</TabPane>
