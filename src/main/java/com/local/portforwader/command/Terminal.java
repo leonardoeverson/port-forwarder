@@ -24,48 +24,44 @@ public class Terminal {
     public static List<String[]> read() throws IOException {
         List<String[]> toReturn = new ArrayList<>(List.of());
 
-        Runnable runnable = () -> {
-            try {
-                InputStreamReader input = runner("netsh interface portproxy show all");
+        try {
+            InputStreamReader input = runner("netsh interface portproxy show all");
 
-                StringBuilder builder = new StringBuilder();
-                for (int ch ; (ch = input.read()) != -1; ) {
-                    builder.append((char) ch);
-                }
+            StringBuilder builder = new StringBuilder();
+            for (int ch; (ch = input.read()) != -1; ) {
+                builder.append((char) ch);
+            }
 
-                List<String> linhas = null;
-                if (builder.toString().contains("\r\n")) {
-                    linhas = List.of(builder.toString().split("\r\n"));
-                } else if (builder.toString().contains("\n")) {
-                    linhas = List.of(builder.toString().split("\n"));
-                }
+            List<String> linhas = null;
+            if (builder.toString().contains("\r\n")) {
+                linhas = List.of(builder.toString().split("\r\n"));
+            } else if (builder.toString().contains("\n")) {
+                linhas = List.of(builder.toString().split("\n"));
+            }
 
-                if (linhas != null) {
-                    boolean extract = false;
-                    for (String linha : linhas) {
-                        if (linha.contains("---")) {
-                            extract = true;
-                            continue;
-                        }
+            if (linhas != null) {
+                boolean extract = false;
+                for (String linha : linhas) {
+                    if (linha.contains("---")) {
+                        extract = true;
+                        continue;
+                    }
 
-                        if (extract) {
-//                            List.of().
-                            Object[] obj = Arrays.stream(linha.split(" "))
-                                    .filter(s -> !s.trim().isEmpty())
-                                    .toArray();
+                    if (extract) {
+                        Object[] obj = Arrays.stream(linha.split(" "))
+                                .filter(s -> !s.trim().isEmpty())
+                                .toArray();
 
-                            String[] item = Arrays.copyOf(obj, obj.length, String[].class);
-                            toReturn.add(item);
-                        }
+                        String[] item = Arrays.copyOf(obj, obj.length, String[].class);
+                        toReturn.add(item);
                     }
                 }
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
             }
-        };
 
-        new Thread(runnable).start();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
         return toReturn;
     }
 

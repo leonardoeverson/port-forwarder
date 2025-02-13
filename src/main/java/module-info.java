@@ -10,6 +10,7 @@ module com.local.portforwader {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
 
+    opens com.local.portforwader.model to javafx.base;
     opens com.local.portforwader to javafx.fxml;
     exports com.local.portforwader;
 }

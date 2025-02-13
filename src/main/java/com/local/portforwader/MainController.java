@@ -2,6 +2,8 @@ package com.local.portforwader;
 
 import com.local.portforwader.command.Terminal;
 import com.local.portforwader.model.TableModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -12,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
@@ -37,9 +40,7 @@ public class MainController {
     @FXML
     private TableColumn<TableModel, String> destino;
 
-    public MainController() throws IOException {
-        List<String[]> lista = Terminal.read();
-    }
+    private final List<TableModel> tabelas = new ArrayList<>();
 
     @FXML
     public void initialize() {
@@ -50,6 +51,23 @@ public class MainController {
         portaOrigem.addEventFilter(KeyEvent.KEY_TYPED, this::setPortFilter);
         portaDestino.addEventFilter(KeyEvent.KEY_TYPED, this::setPortFilter);
         setIpFilter(enderecoDestino);
+
+        Runnable runnable = () -> {
+            List<String[]> lista = null;
+            try {
+                lista = Terminal.read();
+                for (String[] anotherList : lista) {
+                    tabelas.add(new TableModel(anotherList[1], anotherList[2], anotherList[3]));
+                }
+
+                ObservableList<TableModel> local_models = FXCollections.observableArrayList(tabelas);
+                tabela.setItems(local_models);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        };
+
+        new Thread(runnable).start();
     }
 
     @FXML
